@@ -125,6 +125,8 @@ public class myLibTemplate {
 		    while(hasNextLine()) {
 			if(ct < 5)
 			    remlines.append(nextLine() + "\n");
+			else
+			    break;
 			ct++;
 		    }
 		    
