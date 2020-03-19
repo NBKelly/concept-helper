@@ -20,7 +20,8 @@ public class myLibTemplate {
     private static int DEBUG_TIME_MAGNITUDE = 3;
     private static boolean IGNORE_UNCLEAN = true;
     private static Exception exception = null;
-    
+
+    private static DebugLogger logger = null;
     // Input:
     //   * NOTE: checking must be explicit (existence is assumed)
     //   hasNextInt()        -> boolean, input contains another int
@@ -52,7 +53,7 @@ public class myLibTemplate {
     //   total(Str)          -> total(Str, false)
     //   total(bool)         -> total(null, bool)
     //   reset()             -> resets timer
-
+    
     // GCD, LCM:
     //   Single pairs, or lists of numbers are supported
     public static void solveProblem() throws Exception {
@@ -107,6 +108,7 @@ public class myLibTemplate {
 	    }
 	}
 	try {
+	    logger = getDebugLogger();
 	    solveProblem();
 	} catch (Exception e) {
 	    clean_exit = false;
@@ -448,12 +450,68 @@ public class myLibTemplate {
 	return s;
     }
 
+    public static DebugLogger getDebugLogger() {
+	
+	DebugLogger logger = new DebugLogger() {
+		public void print(int output) {
+		    myLibTemplate.print(output);
+		}
+		public void print(Object output) {
+		    myLibTemplate.print(output);
+		}
+		public void println(int output) {
+		    myLibTemplate.println(output);
+		}
+		public void println(Object output) {
+		    myLibTemplate.println(output);
+		}
+		public void println(){
+		    myLibTemplate.println();
+		}
+		public void ERR(){
+		    myLibTemplate.ERR();
+		}
+		public void ERR(Object output){
+		    myLibTemplate.ERR(output);
+		}
+		public void ERR(int output){
+		    myLibTemplate.ERR(output);
+		}
+		public void DEBUG(){
+		    myLibTemplate.DEBUG();
+		}
+		public void TEBUG(Object output){
+		    myLibTemplate.TEBUG(output);
+		}
+		public void DEBUG(Object output){
+		    myLibTemplate.DEBUG(output);
+		}
+		public void TEBUGF(String line, Object... output){
+		    myLibTemplate.TEBUGF(line, output);
+		}
+		public void DEBUGF(String line, Object... output){
+		    myLibTemplate.DEBUGF(line, output);
+		}
+		public void TEBUG(int output){
+		    myLibTemplate.TEBUG(output);
+		}
+		public void DEBUG(int output){
+		    myLibTemplate.DEBUG(output);
+		}
+	    };
+	return logger;
+    }
+    
     public static void print(int output) {
 	System.out.print(output + " ");
     }
     
     public static void print(Object output) {
 	System.out.print(output);
+    }
+
+    public static void println() {
+	System.out.println();
     }
     
     public static void println(int output) {
