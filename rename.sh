@@ -3,7 +3,7 @@
 if [ $# -eq 0 ]
 then
     echo "No arguments supplied"
-    echo "USAGE: rename.sh <classname> <directory (optional)>"
+    echo "USAGE: rename.sh <classname> <directory (optional: default = pwd)>"
     echo "  output: classname.java, ConceptHelper.java, DebugLogger.java"
     exit
 fi
@@ -14,7 +14,7 @@ cd $SCRIPDIR
 SCRIPDIR=`pwd`
 cd $CURDIR
 
-echo "SCRIPDIR: "$SCRIPDIR
+#echo "SCRIPDIR: "$SCRIPDIR
 
 if [ $# -eq 1 ]
 then
@@ -30,28 +30,28 @@ then
     #we're giving a specific output directory
     #let's get the full qualified name of that directory
     echo "making directory $2, and placing output files there..."
-    mkdir $2
-    cd $2
-    OUTDIR=`pwd`
-    
+    mkdir $2 > /dev/null 2>&1
+    cd $2 > /dev/null 2>&1 || { echo "Location $2 does not exist, we cannot create it, or we do not have permission to use it"; exit; }
+    touch $1.java > /dev/null 2>&1 || { echo "Do not have write permissions in location $2"; exit; }
+    OUTDIR=`pwd`    
 fi
 
 cd $SCRIPDIR
-pwd
-echo "OUTDIR: "$OUTDIR
+#pwd
+#echo "OUTDIR: "$OUTDIR
 mkdir dist
 
 ##first replacement: we want to make a file called conceptHelper.java, which is our superclass
 
 #constructing concepthelper file
 CONCEPTSTR="ConceptHelper"
-echo "replacement term: $CONCEPTSTR"
+#echo "replacement term: $CONCEPTSTR"
 sed "s/myLibTemplate/${CONCEPTSTR}/g" myLibTemplate.java > dist/$CONCEPTSTR.java
 
-echo "file $CONCEPTSTR.java has been created"
+#echo "file $CONCEPTSTR.java has been created"
 
 #next, we want to construct our child class
-echo "replacement term: $1"
+#echo "replacement term: $1"
 sed "s/myHelperClass/${1}/g" myHelperClass.java > dist/$1.javatmp
 
 #replace superclass mentions
