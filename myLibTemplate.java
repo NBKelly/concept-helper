@@ -161,7 +161,7 @@ public abstract class myLibTemplate {
 	    
 	    DEBUG("Clean exit: " + clean_exit);
 
-	    if(!(clean_exit || IGNORE_UNCLEAN))
+	    if(!(clean_exit || IGNORE_UNCLEAN) && exception != null)
 		exception.printStackTrace();
 	}
     }
@@ -340,7 +340,7 @@ public abstract class myLibTemplate {
 	}
     }
     
-    private String nextLine() {
+    public String nextLine() {
 	if(!hasNextLine())
 	    DEBUG("No such element [string] at line " + line
 		  + " token " + token);
@@ -348,7 +348,7 @@ public abstract class myLibTemplate {
 	return ln.nextLine();
     }
     
-    private boolean hasNextLine() {
+    public boolean hasNextLine() {
 	if(ln == null || !ln.hasNextLine()) {
 	    //see if sc has another line	    
 	    //while lines exist to be read, and we haven't just fetched
@@ -383,7 +383,7 @@ public abstract class myLibTemplate {
 
     
     // HERE IS SOME CONVENIENCE JUNK TO GET THE NEXT BIGINT ALWAYS
-    private BigInteger nextBigInteger() {
+    public BigInteger nextBigInteger() {
 	if(!hasNextBigInteger())
 	    DEBUG("No such element [bigint] at line " + line
 		  + " token " + token);
@@ -391,7 +391,7 @@ public abstract class myLibTemplate {
 	return ln.nextBigInteger();
     }
     
-    private boolean hasNextBigInteger() {
+    public boolean hasNextBigInteger() {
 	if(ln == null || !ln.hasNextBigInteger()) {
 	    //see if sc has another line	    
 	    //while lines exist to be read, and we haven't just fetched
@@ -421,7 +421,7 @@ public abstract class myLibTemplate {
     }
     
     // HERE IS SOME CONVENIENCE JUNK TO GET THE NEXT INTEGER ALWAYS
-    private int nextInt() {
+    public int nextInt() {
 	if(!hasNextInt())
 	    DEBUG("No such element [int] at line " + line
 		  + " token " + token);
@@ -429,7 +429,7 @@ public abstract class myLibTemplate {
 	return ln.nextInt();
     }
     
-    private boolean hasNextInt() {
+    public boolean hasNextInt() {
 	if(ln == null || !ln.hasNextInt()) {
 	    //see if sc has another line	    
 	    //while lines exist to be read, and we haven't just fetched
@@ -551,7 +551,7 @@ public abstract class myLibTemplate {
 	System.out.println(output);
     }
 
-    private void ERR() {
+    public void ERR() {
 	if(DEBUG || !IGNORE_UNCLEAN)
 	    System.err.println();
     }
@@ -566,7 +566,7 @@ public abstract class myLibTemplate {
 	    System.err.println(output);
     }
     
-    private void DEBUG() {
+    public void DEBUG() {
 	if(DEBUG) System.err.println();
     }
     
@@ -574,7 +574,7 @@ public abstract class myLibTemplate {
 	if(TIMER || DEBUG) System.err.println(output.toString());
     }
 
-    private void TEBUGF(String line, Object... args) {
+    public void TEBUGF(String line, Object... args) {
 	if(DEBUG) System.err.printf(line, args);
     }
     
@@ -582,7 +582,7 @@ public abstract class myLibTemplate {
 	if(DEBUG) System.err.println(output.toString());
     }
 
-    private void DEBUGF(String line, Object... args) {
+    public void DEBUGF(String line, Object... args) {
 	if(DEBUG) System.err.printf(line, args);
     }
 
