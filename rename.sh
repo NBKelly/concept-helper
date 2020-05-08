@@ -6,13 +6,14 @@ cd $SCRDIR
 SCRDIR=`pwd`
 cd $CURDIR
 
-TEMP=`getopt -n opt_test -o c:d:h -l class-name:,destination:help -- "$@"`
+TEMP=`getopt -n opt_test -o c:d:p:h -l class-name:,destination:,package-name:,help -- "$@"`
 eval set -- "$TEMP"
 
 help=$(cat <<-END
 USAGE: opts_test <-c|--classname> <-d|--destination>
     -c: the classname of the target file (mandatory)
     -d: the destination of the target file (optional: default is pwd)
+    -p: package name of the files (optional: default is no package names)
     -h: display this help dialog
 END
 )
@@ -44,6 +45,16 @@ while true ; do
 	-h|--help)
 	    echo "$help"
 	    exit 1 ;;
+	-p|--package-name)
+	    PACKSET=1
+	    if [ -z "$2" ]
+	    then
+		echo "package name argument supplied, but no package name given"
+		echo "$help"
+		exit 1
+	    fi
+	    package=$2
+	    shift 2 ;;
 	--) shift ; break ;;
 	*) echo "Internal Error!" ; exit 1 ;;
     esac
@@ -67,7 +78,7 @@ then
     else
 	#we're giving a specific output directory
 	#let's get the full qualified name of that directory
-	echo "making directory $destination, and placing output files there..."
+	echo "making directory $destination for project $classname..."
 	mkdir $destination > /dev/null 2>&1
 	cd $destination > /dev/null 2>&1 || { echo "Location $2 does not exist, we cannot create it, or we do not have permission to use it"; exit; }
 	touch $classname.java > /dev/null 2>&1 || { echo "Do not have write permissions in location $2"; exit; }
@@ -80,7 +91,7 @@ fi
 
 #SCRIPDIR=`dirname "$0"`/
 cd $SCRDIR
-pwd
+#pwd
 
 #make a temporary directory for our distribution components
 mkdir dist
@@ -101,7 +112,18 @@ sed "s/myHelperClass/${classname}/g" myHelperClass.java > dist/$classname.javatm
 #replace superclass mentions
 sed "s/myLibTemplate/${CONCEPTSTR}/g" dist/$classname.javatmp > dist/$classname.java
 
+if ((PACKSET == 1))
+then
+    #package
+    echo "package $package;" | cat - dist/$classname.java > dist/tmp && mv dist/tmp dist/$classname.java
+    echo "package $package;" | cat - dist/$CONCEPTSTR.java > dist/tmp && mv dist/tmp dist/$CONCEPTSTR.java
+    echo "package $package;" | cat - DebugLogger.java > $destination/DebugLogger.java
+else
+    cp DebugLogger.java $destination
+fi
+
+
 mv dist/$classname.java $destination
 mv dist/$CONCEPTSTR.java $destination
-cp DebugLogger.java $destination
+
 rm -r dist
