@@ -44,6 +44,7 @@ public abstract class myLibTemplate {
     //   Errors: ERR(x)       -> uses stderr, only enabled with -se
     //   Line:   println(x)
     //   Block:  print(x)     -> inserts space after integer argument
+    //   Block:  printf(x)    -> standard printf
     //   Debug:  DEBUG(x)     -> uses stderr, only enabled with -d
     //   Debug:  DEBUGF(x,[]) -> uses stderr, only enabled with -d
     //   Timer:  TEBUG(x)     -> uses stderr, enabled with -d/-t
@@ -537,6 +538,10 @@ public abstract class myLibTemplate {
     
     public void print(Object output) {
 	System.out.print(output);
+    }
+
+    public void printf(String line, Object... args) {
+	System.out.printf(line, args);
     }
 
     public void println() {

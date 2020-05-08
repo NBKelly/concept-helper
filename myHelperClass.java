@@ -46,19 +46,11 @@ public class myHelperClass extends myLibTemplate {
     
     //this is basically your main method
     public void solveProblem() throws Exception {
-	System.out.println("Hello, world!");
+	Timer t = new Timer().start();
 	
-	/**
-	 *  Timer t = new Timer().start();
-	 *  
-	 *  while(hasNextInt()) {
-	 *      t.split("Started scenario at " + line);
-	 *
-	 *      //your logic here
-	 *  }
-	 *  
-	 *  t.total("Finished processing of file. ");
-	 */
+	System.out.println("Hello, world!");
+
+	t.total("Finished processing of file. ");
     }
 
     //do any argument processing here
