@@ -43,49 +43,8 @@ public class myHelperClass extends myLibTemplate {
     
     // GCD, LCM:
     //   Single pairs, or lists of numbers are supported <>, []
-    public myHelperClass() {
-	super();
-    }
     
-    public static void main(String[] argv) {
-	new myHelperClass().process(argv);
-    }
-
-    public boolean processArgs(String[] argv) {
-	for(int i = 0; i < argv.length; i++) {
-	    switch(argv[i]) {
-	    case "-se" : IGNORE_UNCLEAN = false; break;
-	    case "-d"  : DEBUG = true; IGNORE_UNCLEAN = false;
-	    case "-t"  : TIMER = true; break;
-	    case "-dt" :
-		Scanner tst = null;
-		if(i + 1 < argv.length &&
-		   (tst = new Scanner(argv[i+1])).hasNextInt()) {
-		    DEBUG_TIME_MAGNITUDE = tst.nextInt();
-		    i++;
-		    break;
-		}
-		
-	    default :
-		System.err.
-		    println("Usage: -se       = (show exceptions),\n" +
-			    "       -d        = debug mode,\n" +
-			    "       -t        = timer mode (debug lite),\n" +
-			    "       -dt <int> = set timer digits");
-		return false;
-	    }
-	}
-
-	return true;
-    }
-
-    /* ^^^^ NOT YOUR WORK
-     *
-     *     YOUR WORK HERE
-     * 
-     * vvvv YOUR WORk
-     */
-    
+    //this is basically your main method
     public void solveProblem() throws Exception {
 	System.out.println("Hello, world!");
 	
@@ -101,4 +60,50 @@ public class myHelperClass extends myLibTemplate {
 	 *  t.total("Finished processing of file. ");
 	 */
     }
+
+    //do any argument processing here
+    public boolean processArgs(String[] argv) {
+	for(int i = 0; i < argv.length; i++) {
+	    switch(argv[i]) {
+	    case "-se" : IGNORE_UNCLEAN = false; break;
+	    case "-d"  : DEBUG = true; IGNORE_UNCLEAN = false;
+	    case "-t"  : TIMER = true; break;
+	    case "-dt" :
+		Scanner tst = null;
+		if(i + 1 < argv.length &&
+		   (tst = new Scanner(argv[i+1])).hasNextInt()) {
+		    DEBUG_TIME_MAGNITUDE = tst.nextInt();
+		    i++;
+		    break;
+		}
+
+		//customize your usage text here
+	    default :
+		System.err.
+		    println("Usage: -se       = (show exceptions),\n" +
+			    "       -d        = debug mode,\n" +
+			    "       -t        = timer mode (debug lite),\n" +
+			    "       -dt <int> = set timer digits");
+		return false; //false - exit program
+	    }
+	}
+
+	return true; //everything is fine
+    }
+
+    /* ^^^^ YOUR WORK
+     *
+     *     YOUR WORK HERE
+     * 
+     * vvvv NOT YOUR WORK
+     */
+    public myHelperClass() {
+	super();
+    }
+    
+    public static void main(String[] argv) {
+	new myHelperClass().process(argv);
+    }
+
+    
 }
