@@ -1,44 +1,88 @@
 #!/bin/bash
 
-if [ $# -eq 0 ]
-then
-    echo "No arguments supplied"
-    echo "USAGE: rename.sh <classname> <directory (optional: default = pwd)>"
-    echo "  output: classname.java, ConceptHelper.java, DebugLogger.java"
-    exit
-fi
-
-SCRIPDIR=`dirname "$0"`/
 CURDIR=`pwd`
-cd $SCRIPDIR
-SCRIPDIR=`pwd`
+SCRDIR=`dirname "$0"`
+cd $SCRDIR
+SCRDIR=`pwd`
 cd $CURDIR
 
-#echo "SCRIPDIR: "$SCRIPDIR
+TEMP=`getopt -n opt_test -o c:d:h -l class-name:,destination:help -- "$@"`
+eval set -- "$TEMP"
 
-if [ $# -eq 1 ]
+help=$(cat <<-END
+USAGE: opts_test <-c|--classname> <-d|--destination>
+    -c: the classname of the target file (mandatory)
+    -d: the destination of the target file (optional: default is pwd)
+    -h: display this help dialog
+END
+)
+
+
+while true ; do
+    case "$1" in
+	-c|--class-name)
+	    CNSET=1
+	    #need to assert not empty
+	    if [ -z "$2" ]
+	    then
+	       echo "classname argument supplied, but no classname has been given"
+	       echo "$help"
+	       exit 1
+	    fi
+	    classname=$2
+	    shift 2 ;;
+	-d|--destination)
+	    DESTSET=1
+	    if [ -z "$2" ]
+	    then
+		echo "destination argument supplied, but no destination has been given"
+		echo "$help"
+		exit 1
+	    fi
+	    destination=$2
+	    shift 2 ;;
+	-h|--help)
+	    echo "$help"
+	    exit 1 ;;
+	--) shift ; break ;;
+	*) echo "Internal Error!" ; exit 1 ;;
+    esac
+done
+
+#the program cannot run if no classname is given
+if ((CNSET != 1))
 then
-    #we need to figure out where the script is being run from,
-    #so we can deposite the created files there and reference file
+    echo "$help"
+    exit 1
+fi
+
+if ((DESTSET == 1))
+then
+    #check an actual argument has been given
+    if [ -z "$destination" ]
+    then
+	echo "destination argument supplied, but no destination has been given"
+	echo "$help"
+	exit 1
+    else
+	#we're giving a specific output directory
+	#let's get the full qualified name of that directory
+	echo "making directory $destination, and placing output files there..."
+	mkdir $destination > /dev/null 2>&1
+	cd $destination > /dev/null 2>&1 || { echo "Location $2 does not exist, we cannot create it, or we do not have permission to use it"; exit; }
+	touch $classname.java > /dev/null 2>&1 || { echo "Do not have write permissions in location $2"; exit; }
+	destination=`pwd`    
+    fi
+else
     echo "placing output files in current directory"
-    OUTDIR=`pwd`
+    destination=`pwd`
 fi
 
-#second argument makes a folder (at the cd), and places the files in there
-if [ $# -eq 2 ]
-then
-    #we're giving a specific output directory
-    #let's get the full qualified name of that directory
-    echo "making directory $2, and placing output files there..."
-    mkdir $2 > /dev/null 2>&1
-    cd $2 > /dev/null 2>&1 || { echo "Location $2 does not exist, we cannot create it, or we do not have permission to use it"; exit; }
-    touch $1.java > /dev/null 2>&1 || { echo "Do not have write permissions in location $2"; exit; }
-    OUTDIR=`pwd`    
-fi
+#SCRIPDIR=`dirname "$0"`/
+cd $SCRDIR
+pwd
 
-cd $SCRIPDIR
-#pwd
-#echo "OUTDIR: "$OUTDIR
+#make a temporary directory for our distribution components
 mkdir dist
 
 ##first replacement: we want to make a file called conceptHelper.java, which is our superclass
@@ -52,12 +96,12 @@ sed "s/myLibTemplate/${CONCEPTSTR}/g" myLibTemplate.java > dist/$CONCEPTSTR.java
 
 #next, we want to construct our child class
 #echo "replacement term: $1"
-sed "s/myHelperClass/${1}/g" myHelperClass.java > dist/$1.javatmp
+sed "s/myHelperClass/${classname}/g" myHelperClass.java > dist/$classname.javatmp
 
 #replace superclass mentions
-sed "s/myLibTemplate/${CONCEPTSTR}/g" dist/$1.javatmp > dist/$1.java
+sed "s/myLibTemplate/${CONCEPTSTR}/g" dist/$classname.javatmp > dist/$classname.java
 
-mv dist/$1.java $OUTDIR
-mv dist/$CONCEPTSTR.java $OUTDIR
-cp DebugLogger.java $OUTDIR
+mv dist/$classname.java $destination
+mv dist/$CONCEPTSTR.java $destination
+cp DebugLogger.java $destination
 rm -r dist
