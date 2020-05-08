@@ -6,7 +6,11 @@ if [ $# -eq 0 ]
       exit
 fi
 
-echo "replacement term: $1"
-sed "s/myLibTemplate/${1}/g" myLibTemplate.java > $1.java
+##first replacement: we want to make a file called conceptHelper.java, which is our superclass
 
-echo "file $1.java has been created"
+#constructing concepthelper file
+CONCEPTSTR="ConceptHelper"
+echo "replacement term: $CONCEPTSTR"
+sed "s/myLibTemplate/${CONCEPTSTR}/g" myLibTemplate.java > $CONCEPTSTR.java
+
+echo "file $CONCEPTSTR.java has been created"
