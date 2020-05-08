@@ -2,26 +2,34 @@ import java.math.BigInteger;
 import java.lang.StringBuilder;
 import java.util.*;
 
-public class myLibTemplate {
+public class myLibTemplate {    
     //If you are lost, your code probably begins on line 77
-    static Scanner sc = new Scanner(System.in);
-    static Scanner ln;
-    static int line = 0;
-    static int token = 0;
+
+    //navigate input files
+    private Scanner sc = new Scanner(System.in);
+    private Scanner ln;
+    private int line = 0;
+    private int token = 0;
     
     //is the program running in debug mode
     //things like timer, DEBUG(), etc will only work this way
-    private static boolean DEBUG = false;
-    private static boolean TIMER = false;
-    static boolean clean_exit = true;
+    private boolean DEBUG = false;
+    private boolean TIMER = false;
+    private boolean clean_exit = true;
     //number of significant places to use when running the timer
     //timer runs in nanoseconds, units = xxx.000000000 s, where
     //l(x..x) = magnitude
-    private static int DEBUG_TIME_MAGNITUDE = 3;
-    private static boolean IGNORE_UNCLEAN = true;
-    private static Exception exception = null;
+    private int DEBUG_TIME_MAGNITUDE = 3;
+    private boolean IGNORE_UNCLEAN = true;
+    private Exception exception = null;
 
-    private static DebugLogger logger = null;
+    private DebugLogger logger = null;
+
+    public myLibTemplate() {
+	self = this;
+    }
+    myLibTemplate self;
+    
     // Input:
     //   * NOTE: checking must be explicit (existence is assumed)
     //   hasNextInt()        -> boolean, input contains another int
@@ -56,7 +64,7 @@ public class myLibTemplate {
     
     // GCD, LCM:
     //   Single pairs, or lists of numbers are supported
-    public static void solveProblem() throws Exception {
+    public void solveProblem() throws Exception {
 	/**
 	 *  Timer t = new Timer().start();
 	 *  
@@ -79,11 +87,12 @@ public class myLibTemplate {
      * 
      * vvvv NOT YOUR WORk
      */
-
-
-
-    
     public static void main(String[] argv) {
+	//use of non-static members allows replacement of solveProblem for inherited subclasses
+	new myLibTemplate().process(argv);
+    }
+    
+    public void process(String[] argv) {
 	for(int i = 0; i < argv.length; i++) {
 	    switch(argv[i]) {
 	    case "-se" : IGNORE_UNCLEAN = false; break;
@@ -116,7 +125,7 @@ public class myLibTemplate {
 	}
 	finally {
 	    DEBUG();
-
+	    
 	    if(clean_exit) {
 		if(!hasNextLine())
 		    DEBUG("Program terminated cleanly at line '" + line +
@@ -229,12 +238,19 @@ public class myLibTemplate {
     //Now here is some GCD stuff
     
     // NOW HERE IS SOME TIMER STUFF
-    private static class Timer {
+    private class Timer {
 	//we cheat with this timer, and when we split, we account
 	//for the time taken in the split
 	//the timer only does anything when debug is enabled
 	private long startTime;
 	private long splitTime;
+
+	private String smult(String s, int period) {
+	    if(period <= 0)
+		return "";
+
+	    return new String(new char[period]).replace("\0", s);
+	}
 	
 	public Timer start() {
 	    if(DEBUG || TIMER) {
@@ -310,13 +326,13 @@ public class myLibTemplate {
 
 	public void reset() {
 	    if(DEBUG || TIMER) {
-		DEBUG("Event - Timer Reset");
+		self.DEBUG("Event - Timer Reset");
 		startTime = splitTime = System.nanoTime();
 	    }
 	}
     }
     
-    private static String nextLine() {
+    private String nextLine() {
 	if(!hasNextLine())
 	    DEBUG("No such element [string] at line " + line
 		  + " token " + token);
@@ -324,7 +340,7 @@ public class myLibTemplate {
 	return ln.nextLine();
     }
     
-    private static boolean hasNextLine() {
+    private boolean hasNextLine() {
 	if(ln == null || !ln.hasNextLine()) {
 	    //see if sc has another line	    
 	    //while lines exist to be read, and we haven't just fetched
@@ -332,6 +348,10 @@ public class myLibTemplate {
 	    while(sc.hasNextLine() && !checkNextLine());
 	}
 
+	//if the inputstream is null, then this will return false
+	if(ln == null)
+	  return false;
+	
 	if(ln.hasNextLine())
 	    return true;
 	
@@ -355,7 +375,7 @@ public class myLibTemplate {
 
     
     // HERE IS SOME CONVENIENCE JUNK TO GET THE NEXT BIGINT ALWAYS
-    private static BigInteger nextBigInt() {
+    private BigInteger nextBigInt() {
 	if(!hasNextBigInteger())
 	    DEBUG("No such element [bigint] at line " + line
 		  + " token " + token);
@@ -363,7 +383,7 @@ public class myLibTemplate {
 	return ln.nextBigInteger();
     }
     
-    private static boolean hasNextBigInteger() {
+    private boolean hasNextBigInteger() {
 	if(ln == null || !ln.hasNextBigInteger()) {
 	    //see if sc has another line	    
 	    //while lines exist to be read, and we haven't just fetched
@@ -393,7 +413,7 @@ public class myLibTemplate {
     }
     
     // HERE IS SOME CONVENIENCE JUNK TO GET THE NEXT INTEGER ALWAYS
-    private static int nextInt() {
+    private int nextInt() {
 	if(!hasNextInt())
 	    DEBUG("No such element [int] at line " + line
 		  + " token " + token);
@@ -401,7 +421,7 @@ public class myLibTemplate {
 	return ln.nextInt();
     }
     
-    private static boolean hasNextInt() {
+    private boolean hasNextInt() {
 	if(ln == null || !ln.hasNextInt()) {
 	    //see if sc has another line	    
 	    //while lines exist to be read, and we haven't just fetched
@@ -430,7 +450,7 @@ public class myLibTemplate {
     }
 
     //if the line is empty, or is a comment, return false
-    private static boolean checkNextLine() {
+    private boolean checkNextLine() {
 	String l = sc.nextLine();
 	line++;
 	token = 0;
@@ -441,7 +461,7 @@ public class myLibTemplate {
     }
 
     // NOW HERE IS HOW WE PRINT
-    public static String padr(int output, int len) {
+    public String padr(int output, int len) {
 	String s = "" + output;
 
 	while(s.length() < len)
@@ -450,114 +470,113 @@ public class myLibTemplate {
 	return s;
     }
 
-    public static DebugLogger getDebugLogger() {
-	
+    public DebugLogger getDebugLogger() {	
 	DebugLogger logger = new DebugLogger() {
 		public void print(int output) {
-		    myLibTemplate.print(output);
+		    self.print(output);
 		}
 		public void print(Object output) {
-		    myLibTemplate.print(output);
+		    self.print(output);
 		}
 		public void println(int output) {
-		    myLibTemplate.println(output);
+		    self.println(output);
 		}
 		public void println(Object output) {
-		    myLibTemplate.println(output);
+		    self.println(output);
 		}
 		public void println(){
-		    myLibTemplate.println();
+		    self.println();
 		}
 		public void ERR(){
-		    myLibTemplate.ERR();
+		    self.ERR();
 		}
 		public void ERR(Object output){
-		    myLibTemplate.ERR(output);
+		    self.ERR(output);
 		}
 		public void ERR(int output){
-		    myLibTemplate.ERR(output);
+		    self.ERR(output);
 		}
 		public void DEBUG(){
-		    myLibTemplate.DEBUG();
+		    self.DEBUG();
 		}
 		public void TEBUG(Object output){
-		    myLibTemplate.TEBUG(output);
+		    self.TEBUG(output);
 		}
 		public void DEBUG(Object output){
-		    myLibTemplate.DEBUG(output);
+		    self.DEBUG(output);
 		}
 		public void TEBUGF(String line, Object... output){
-		    myLibTemplate.TEBUGF(line, output);
+		    self.TEBUGF(line, output);
 		}
 		public void DEBUGF(String line, Object... output){
-		    myLibTemplate.DEBUGF(line, output);
+		    self.DEBUGF(line, output);
 		}
 		public void TEBUG(int output){
-		    myLibTemplate.TEBUG(output);
+		    self.TEBUG(output);
 		}
 		public void DEBUG(int output){
-		    myLibTemplate.DEBUG(output);
+		    self.DEBUG(output);
 		}
 	    };
 	return logger;
     }
     
-    public static void print(int output) {
+    public void print(int output) {
 	System.out.print(output + " ");
     }
     
-    public static void print(Object output) {
+    public void print(Object output) {
 	System.out.print(output);
     }
 
-    public static void println() {
+    public void println() {
 	System.out.println();
     }
     
-    public static void println(int output) {
+    public void println(int output) {
 	System.out.println(output);
     }
     
-    public static void println(Object output) {
+    public void println(Object output) {
 	System.out.println(output);
     }
 
-    private static void ERR() {
+    private void ERR() {
 	if(DEBUG || !IGNORE_UNCLEAN)
 	    System.err.println();
     }
 
-    public static void ERR(Object output) {
+    public void ERR(Object output) {
 	if(DEBUG || !IGNORE_UNCLEAN)
 	    System.err.println(output.toString());
     }
 
-    public static void ERR(int output) {
+    public void ERR(int output) {
 	if(DEBUG || !IGNORE_UNCLEAN)
 	    System.err.println(output);
     }
     
-    private static void DEBUG() {
+    private void DEBUG() {
 	if(DEBUG) System.err.println();
     }
     
-    public static void TEBUG(Object output) {
+    public void TEBUG(Object output) {
 	if(TIMER || DEBUG) System.err.println(output.toString());
     }
 
-    private static void TEBUGF(String line, Object... args) {
+    private void TEBUGF(String line, Object... args) {
 	if(DEBUG) System.err.printf(line, args);
     }
     
-    public static void DEBUG(Object output) {
+    public void DEBUG(Object output) {
 	if(DEBUG) System.err.println(output.toString());
     }
 
-    private static void DEBUGF(String line, Object... args) {
+    private void DEBUGF(String line, Object... args) {
 	if(DEBUG) System.err.printf(line, args);
     }
 
-    public static void DEBUG(int output) {
+    public void DEBUG(int output) {
 	if(DEBUG) System.err.println(output);
     }
 }
