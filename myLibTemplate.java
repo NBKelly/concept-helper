@@ -3,7 +3,7 @@ import java.lang.StringBuilder;
 import java.util.*;
 
 public class myLibTemplate {    
-    //If you are lost, your code probably begins on line 77
+    //If you are lost, your code probably begins on line 67
 
     //navigate input files
     private Scanner sc = new Scanner(System.in);
