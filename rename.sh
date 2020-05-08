@@ -14,3 +14,11 @@ echo "replacement term: $CONCEPTSTR"
 sed "s/myLibTemplate/${CONCEPTSTR}/g" myLibTemplate.java > $CONCEPTSTR.java
 
 echo "file $CONCEPTSTR.java has been created"
+
+#next, we want to construct our child class
+echo "replacement term: $1"
+sed "s/myHelperClass/${1}/g" myHelperClass.java > $1.javatmp
+
+#replace superclass mentions
+sed "s/myLibTemplate/${CONCEPTSTR}/g" $1.javatmp > $1.java
+
