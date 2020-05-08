@@ -16,11 +16,14 @@ This is primarily for my own use. It's a little script I've slowly compiled and 
 ### Usage
 There is a file called rename.sh.
 
-It takes as input two values:
+```text
+It takes as input three values:
     -c classname
     -d destination
+    -p package-name
+```
 
-The classname value is mandatory, and the destination value is optional. Files will be produced in the destination (or the pwd, if no destination is supplied), with the classname being used for the production file.
+The classname value is mandatory, and the destination/package-name values are optional. Files will be produced in the destination (or the pwd, if no destination is supplied), with the classname being used for the production file, and the package name being used in each file if supplied.
 
 All documentation required to use the script should be in the <classname>.java file.
 
