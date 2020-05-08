@@ -14,11 +14,15 @@ This is primarily for my own use. It's a little script I've slowly compiled and 
 * support for simple timesplits without any extra coding required
 
 ### Usage
-There is a file called rename.sh. It takes as input one argument, which is a classname. If I wanted to make 'QuickLinks.java', I would call `rename.sh QuickLinks`.
+There is a file called rename.sh.
 
-This will produce a copy of the myLibTemplate file where all instances of the classname are replaced by the word QuickLinks.
+It takes as input two values:
+    -c classname
+    -d destination
 
-To actually use the script, start on line `59`. The body of your program goes in here. Consider it a replacement main script.
+The classname value is mandatory, and the destination value is optional. Files will be produced in the destination (or the pwd, if no destination is supplied), with the classname being used for the production file.
+
+All documentation required to use the script should be in the <classname>.java file.
 
 ### Things to take note of
 
