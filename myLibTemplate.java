@@ -23,7 +23,7 @@ public abstract class myLibTemplate {
     protected boolean IGNORE_UNCLEAN = true;
     protected Exception exception = null;
 
-    private DebugLogger logger = null;
+    protected DebugLogger logger = null;
 
     public myLibTemplate() {
 	self = this;
@@ -244,10 +244,9 @@ public abstract class myLibTemplate {
 	long m = a * (long)b;
 	return (int) (m / GCD(a, b));
     }
-    //Now here is some GCD stuff
     
     // NOW HERE IS SOME TIMER STUFF
-    private class Timer {
+    protected class Timer {
 	//we cheat with this timer, and when we split, we account
 	//for the time taken in the split
 	//the timer only does anything when debug is enabled
@@ -384,7 +383,7 @@ public abstract class myLibTemplate {
 
     
     // HERE IS SOME CONVENIENCE JUNK TO GET THE NEXT BIGINT ALWAYS
-    private BigInteger nextBigInt() {
+    private BigInteger nextBigInteger() {
 	if(!hasNextBigInteger())
 	    DEBUG("No such element [bigint] at line " + line
 		  + " token " + token);
@@ -480,7 +479,8 @@ public abstract class myLibTemplate {
     }
 
     public DebugLogger getDebugLogger() {	
-	DebugLogger logger = new DebugLogger() {
+	if(logger == null)
+	    logger = new DebugLogger() {
 		public void print(int output) {
 		    self.print(output);
 		}
@@ -527,6 +527,7 @@ public abstract class myLibTemplate {
 		    self.DEBUG(output);
 		}
 	    };
+	
 	return logger;
     }
     
