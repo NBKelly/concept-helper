@@ -3,6 +3,8 @@
 if [ $# -eq 0 ]
 then
     echo "No arguments supplied"
+    echo "USAGE: rename.sh <classname> <directory (optional)>"
+    echo "  output: classname.java, ConceptHelper.java, DebugLogger.java"
     exit
 fi
 
@@ -37,24 +39,25 @@ fi
 cd $SCRIPDIR
 pwd
 echo "OUTDIR: "$OUTDIR
+mkdir dist
 
 ##first replacement: we want to make a file called conceptHelper.java, which is our superclass
 
 #constructing concepthelper file
 CONCEPTSTR="ConceptHelper"
 echo "replacement term: $CONCEPTSTR"
-sed "s/myLibTemplate/${CONCEPTSTR}/g" myLibTemplate.java > $CONCEPTSTR.java
+sed "s/myLibTemplate/${CONCEPTSTR}/g" myLibTemplate.java > dist/$CONCEPTSTR.java
 
 echo "file $CONCEPTSTR.java has been created"
 
 #next, we want to construct our child class
 echo "replacement term: $1"
-sed "s/myHelperClass/${1}/g" myHelperClass.java > $1.javatmp
+sed "s/myHelperClass/${1}/g" myHelperClass.java > dist/$1.javatmp
 
 #replace superclass mentions
-sed "s/myLibTemplate/${CONCEPTSTR}/g" $1.javatmp > $1.java
+sed "s/myLibTemplate/${CONCEPTSTR}/g" dist/$1.javatmp > dist/$1.java
 
-rm $1.javatmp
-mv $1.java $OUTDIR
-mv $CONCEPTSTR.java $OUTDIR
+mv dist/$1.java $OUTDIR
+mv dist/$CONCEPTSTR.java $OUTDIR
 cp DebugLogger.java $OUTDIR
+rm -r dist
