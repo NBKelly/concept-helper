@@ -2,7 +2,7 @@ import java.math.BigInteger;
 import java.lang.StringBuilder;
 import java.util.*;
 
-public class myLibTemplate {    
+public abstract class myLibTemplate {    
     //If you are lost, your code probably begins on line 67
 
     //navigate input files
@@ -13,15 +13,15 @@ public class myLibTemplate {
     
     //is the program running in debug mode
     //things like timer, DEBUG(), etc will only work this way
-    private boolean DEBUG = false;
-    private boolean TIMER = false;
-    private boolean clean_exit = true;
+    protected boolean DEBUG = false;
+    protected boolean TIMER = false;
+    protected boolean clean_exit = true;
     //number of significant places to use when running the timer
     //timer runs in nanoseconds, units = xxx.000000000 s, where
     //l(x..x) = magnitude
-    private int DEBUG_TIME_MAGNITUDE = 3;
-    private boolean IGNORE_UNCLEAN = true;
-    private Exception exception = null;
+    protected int DEBUG_TIME_MAGNITUDE = 3;
+    protected boolean IGNORE_UNCLEAN = true;
+    protected Exception exception = null;
 
     private DebugLogger logger = null;
 
@@ -64,7 +64,7 @@ public class myLibTemplate {
     
     // GCD, LCM:
     //   Single pairs, or lists of numbers are supported
-    public void solveProblem() throws Exception {
+    public abstract void solveProblem() throws Exception; /* {
 	/**
 	 *  Timer t = new Timer().start();
 	 *  
@@ -76,7 +76,7 @@ public class myLibTemplate {
 	 *  
 	 *  t.total("Finished processing of file. 
 	 */
-    }
+    //}
 
 
 
@@ -87,12 +87,13 @@ public class myLibTemplate {
      * 
      * vvvv NOT YOUR WORk
      */
-    public static void main(String[] argv) {
+    /*public static void main(String[] argv) {
 	//use of non-static members allows replacement of solveProblem for inherited subclasses
 	new myLibTemplate().process(argv);
-    }
+	}*/
 
-    public boolean processArgs(String[] argv) {
+    //todo: make this abstract
+    public abstract boolean processArgs(String[] argv); /*{
 	for(int i = 0; i < argv.length; i++) {
 	    switch(argv[i]) {
 	    case "-se" : IGNORE_UNCLEAN = false; break;
@@ -118,7 +119,7 @@ public class myLibTemplate {
 	}
 
 	return true;
-    }
+	}*/
     
     public void process(String[] argv) {
 	if(!processArgs(argv))
