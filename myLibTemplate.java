@@ -91,8 +91,8 @@ public class myLibTemplate {
 	//use of non-static members allows replacement of solveProblem for inherited subclasses
 	new myLibTemplate().process(argv);
     }
-    
-    public void process(String[] argv) {
+
+    public boolean processArgs(String[] argv) {
 	for(int i = 0; i < argv.length; i++) {
 	    switch(argv[i]) {
 	    case "-se" : IGNORE_UNCLEAN = false; break;
@@ -113,9 +113,17 @@ public class myLibTemplate {
 			    "       -d        = debug mode,\n" +
 			    "       -t        = timer mode (debug lite),\n" +
 			    "       -dt <int> = set timer digits");
-		return;
+		return false;
 	    }
 	}
+
+	return true;
+    }
+    
+    public void process(String[] argv) {
+	if(!processArgs(argv))
+	    return;
+	
 	try {
 	    logger = getDebugLogger();
 	    solveProblem();
