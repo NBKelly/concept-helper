@@ -1,6 +1,7 @@
 public interface DebugLogger {
     public void print(int output);
     public void print(Object output);
+    public void printf(String line, Object... output);
     public void println(int output);
     public void println(Object output);
     public void println();

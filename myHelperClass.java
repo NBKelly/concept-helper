@@ -5,6 +5,12 @@ public class myHelperClass extends myLibTemplate {
     //  DEBUG, IGNORE UNCLEAN, TIMER, DEBUG_TIME_MAGNITUDE
     //  the timer and debug functions make use of these
 
+    //BE AWARE OF:
+    //  PAGE_ENABLED
+    //  PAGE_ENABLED disables real time input, but allows for arbitrary navigation of input stream (by line)
+    //  making use of the Reset and Page functions, ie
+    //  Page()          -> int page
+    //  Reset(int page) -> ()
     // to pass a logger to another class:
     //   getDebugLogger()  :  seeDebugLogger.java
 
@@ -80,6 +86,12 @@ public class myHelperClass extends myLibTemplate {
 	    }
 	}
 
+
+	//set page enabled - if paging is enabled, the entire input stream will be read in advance
+	//                   and it will be possible to arbitrarily skip between places in the
+	//                   input stream
+	PAGE_ENABLED = true;
+	
 	return true; //everything is fine
     }
 

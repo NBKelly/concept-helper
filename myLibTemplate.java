@@ -10,12 +10,14 @@ public abstract class myLibTemplate {
     private Scanner ln;
     private int line = 0;
     private int token = 0;
+    protected String pagedString = "";
     
     //is the program running in debug mode
     //things like timer, DEBUG(), etc will only work this way
     protected boolean DEBUG = false;
     protected boolean TIMER = false;
     protected boolean clean_exit = true;
+    protected boolean PAGE_ENABLED = true;
     //number of significant places to use when running the timer
     //timer runs in nanoseconds, units = xxx.000000000 s, where
     //l(x..x) = magnitude
@@ -121,10 +123,42 @@ public abstract class myLibTemplate {
 
 	return true;
 	}*/
+
+    
+
+    protected int Page() {
+	if(!PAGE_ENABLED)
+	    throw new UnsupportedOperationException("ERROR: Paging mode has not been enabled");
+
+	return line;
+    }
+
+    protected int Reset(int page) {
+	if(!PAGE_ENABLED)
+	    throw new UnsupportedOperationException("ERROR: Paging mode has not been enabled");
+
+	ln = null;
+	sc = new Scanner(pagedString);
+	
+	line = 0;
+	while(line != page)
+	    nextLine();
+	
+	return page;
+    }
     
     public void process(String[] argv) {
 	if(!processArgs(argv))
 	    return;
+
+	if(PAGE_ENABLED) {
+	    StringBuilder ps = new StringBuilder("");
+	    while(sc.hasNextLine()) {
+		ps.append(sc.nextLine() + "\n");
+	    }
+	    pagedString = ps.toString();
+	    sc = new Scanner(pagedString);
+	}
 	
 	try {
 	    logger = getDebugLogger();
@@ -487,6 +521,9 @@ public abstract class myLibTemplate {
 		}
 		public void print(Object output) {
 		    self.print(output);
+		}
+		public void printf(String line, Object... output){
+		    self.printf(line, output);
 		}
 		public void println(int output) {
 		    self.println(output);
