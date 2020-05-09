@@ -1,5 +1,5 @@
 # concept-helper
-A simple Java script set to ease the difficulty and repetition of creating proof of concept models. 
+A simple Java script set to ease the difficulty and repetition of constructing proof of concept models. 
 
 This is primarily for my own use. It's a little script I've slowly compiled and modified while I practice programming contest problems. For an example of a project where it has been used, see https://github.com/NBKelly/QuickLinks.
 
