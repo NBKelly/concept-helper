@@ -54,7 +54,7 @@ public class myHelperClass extends myLibTemplate {
     public void solveProblem() throws Exception {
 	Timer t = new Timer().start();
 	
-	System.out.println("Hello, world!");
+        println("Hello, world!");
 
 	t.total("Finished processing of file. ");
     }
