@@ -16,7 +16,7 @@ USAGE: opts_test <-c|--classname> <-d|--destination>
     -p|--package-name: package name of the files (optional: default is no package names)
     -s|--aux-class: specify shared classes classpath (optional: requires t)
     -t|--aux-dir: specify shared classes location  (optional: requires s)
-    -h: display this help dialog
+    -h|--help: display this help dialog
 END
 )
 
