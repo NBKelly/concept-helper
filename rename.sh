@@ -17,7 +17,7 @@ USAGE: opts_test <-c|--classname> <-d|--destination>
     -s|--aux-class: specify shared classes classpath (optional: requires t)
     -t|--aux-dir: specify shared classes location  (optional: requires s)
     -n|--no-overwrite: do not overwrite auxiliary classes (still make them if they don't exist)
-    -h: display this help dialog
+    -h|--help: display this help dialog
 END
 )
 
@@ -89,7 +89,10 @@ while true ; do
 	    fi
 	    package=$2
 	    shift 2 ;;
-	--) shift ; break ;;
+	--)
+	    echo "$help"
+	    exit 1
+	    shift ; break ;;
 	*) echo "Internal Error!" ; exit 1 ;;
     esac
 done
@@ -173,7 +176,7 @@ mkdir dist
 ##first replacement: we want to make a file called conceptHelper.java, which is our superclass
 
 CONCEPTSTR="ConceptHelper"
-echo "replacement term: $CONCEPTSTR"
+#echo "replacement term: $CONCEPTSTR"
 
 
 sed "s/myLibTemplate/${CONCEPTSTR}/g" myLibTemplate.java > dist/$CONCEPTSTR.java

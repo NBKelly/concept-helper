@@ -30,7 +30,7 @@ public abstract class myLibTemplate {
     public myLibTemplate() {
 	self = this;
     }
-    myLibTemplate self;
+    protected myLibTemplate self;
     
     // Input:
     //   * NOTE: checking must be explicit (existence is assumed)
@@ -126,14 +126,14 @@ public abstract class myLibTemplate {
 
     
 
-    protected int Page() {
+    public int Page() {
 	if(!PAGE_ENABLED)
 	    throw new UnsupportedOperationException("ERROR: Paging mode has not been enabled");
 
 	return line;
     }
 
-    protected int Reset(int page) {
+    public int Reset(int page) {
 	if(!PAGE_ENABLED)
 	    throw new UnsupportedOperationException("ERROR: Paging mode has not been enabled");
 
