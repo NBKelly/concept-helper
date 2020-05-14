@@ -281,7 +281,7 @@ public abstract class myLibTemplate {
     }
     
     // NOW HERE IS SOME TIMER STUFF
-    protected class Timer {
+    public class Timer {
 	//we cheat with this timer, and when we split, we account
 	//for the time taken in the split
 	//the timer only does anything when debug is enabled
