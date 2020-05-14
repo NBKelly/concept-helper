@@ -6,7 +6,7 @@ cd $SCRDIR
 SCRDIR=`pwd`
 cd $CURDIR
 
-TEMP=`getopt -n opt_test -o c:d:p:hs:t: -l class-name:,destination:,package-name:,help,aux-class:,aux-dir: -- "$@"`
+TEMP=`getopt -n opt_test -o c:d:p:hs:t:n -l class-name:,destination:,package-name:,help,aux-class:,aux-dir:,no-overwrite -- "$@"`
 eval set -- "$TEMP"
 
 help=$(cat <<-END
@@ -16,6 +16,7 @@ USAGE: opts_test <-c|--classname> <-d|--destination>
     -p|--package-name: package name of the files (optional: default is no package names)
     -s|--aux-class: specify shared classes classpath (optional: requires t)
     -t|--aux-dir: specify shared classes location  (optional: requires s)
+    -n|--no-overwrite: do not overwrite auxiliary classes (still make them if they don't exist)
     -h: display this help dialog
 END
 )
@@ -75,6 +76,9 @@ while true ; do
 	-h|--help)
 	    echo "$help"
 	    exit 1 ;;
+	-n|--no-overwrite)
+	    NO_OVERWRITE=1
+	    shift 1 ;;
 	-p|--package-name)
 	    PACKSET=1
 	    if [ -z "$2" ]
