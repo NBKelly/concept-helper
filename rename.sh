@@ -163,7 +163,8 @@ then
 	WHERE=`pwd`
 	mkdir -p "$auxdir" > /dev/null 2>&1
 	cd "$auxdir" > /dev/null 2>&1 || { echo "Location $2 does not exist, we cannot create it, or we do not have permission to use it"; exit 1; }
-	touch "DebugLogger.java" > /dev/null 2>&1 || { echo "Do not have write permissions in location $2"; exit 1; }
+	touch "abc.touch" > /dev/null 2>&1 || { echo "Do not have write permissions in location $2"; exit 1; }
+	rm abc.touch
 	auxdir=`pwd`
 	cd $WHERE
     fi
@@ -200,26 +201,72 @@ then
 	printf "package $package;\nimport $auxclass.DebugLogger;\nimport $auxclass.ConceptHelper;\n" | cat - dist/$classname.java > dist/tmp && mv dist/tmp dist/$classname.java
     else
 	printf "import $auxclass;\n" | cat - dist/$classname.java > dist/tmp && mv dist/tmp dist/$classname.java
-    fi
+    fi    
     printf "package $auxclass;\n" | cat - dist/$CONCEPTSTR.java > dist/tmp && mv dist/tmp dist/$CONCEPTSTR.java
-    printf "package $auxclass;\n" | cat - DebugLogger.java > $auxdir/DebugLogger.java
+    #check if file exists first
+    if [ -f "$auxdir/DebugLogger.java" ]; then
+	if ((NO_OVERWRITE != 1))
+	then
+	    printf "package $auxclass;\n" | cat - DebugLogger.java > $auxdir/DebugLogger.java
+	fi
+    else
+	printf "package $auxclass;\n" | cat - DebugLogger.java > $auxdir/DebugLogger.java
+    fi
+    
 elif ((PACKSET == 1))
 then
     #package
     printf "package $package;\n" | cat - dist/$classname.java > dist/tmp && mv dist/tmp dist/$classname.java
     printf "package $package;\n" | cat - dist/$CONCEPTSTR.java > dist/tmp && mv dist/tmp dist/$CONCEPTSTR.java
-    printf "package $package;\n" | cat - DebugLogger.java > $destination/DebugLogger.java
+
+    if [ -f "$destination/DebugLogger.java" ]; then
+	if ((NO_OVERWRITE != 1))
+	then
+	    printf "package $package;\n" | cat - DebugLogger.java > $destination/DebugLogger.java
+	    
+	fi
+    else
+	printf "package $package;\n" | cat - DebugLogger.java > $destination/DebugLogger.java	
+    fi
+    
 else
     printf "//no package specified;" | cat - dist/$classname.java > dist/tmp && mv dist/tmp dist/$classname.java
-    cp DebugLogger.java $destination
+
+    #copy only if we are allowed or it does not already exit
+    if [ -f "$destination/DebugLogger.java" ]; then
+	if ((NO_OVERWRITE != 1))
+	then
+	    cp DebugLogger.java "$destination/DebugLogger.java"	    
+	fi
+    else
+	cp DebugLogger.java "$destination/DebugLogger.java"	
+    fi
+    
 fi
 
 mv dist/$classname.java $destination
 
 if((ACSET == 1))
 then
-    mv dist/$CONCEPTSTR.java $auxdir
+    if [ -f "$auxdir/$CONCEPTSTR.java" ]
+    then
+	if ((NO_OVERWRITE != 1))
+	then
+	    mv dist/$CONCEPTSTR.java $auxdir
+	fi
+    else
+	mv dist/$CONCEPTSTR.java $auxdir
+    fi
 else
-    mv dist/$CONCEPTSTR.java $destination
+    if [ -f "$destination/$CONCEPTSTR.java" ]
+    then
+	if ((NO_OVERWRITE != 1))
+	then
+	    mv dist/$CONCEPTSTR.java $destination
+	fi
+    else
+	mv dist/$CONCEPTSTR.java $destination
+    fi
 fi
+
 rm -r dist

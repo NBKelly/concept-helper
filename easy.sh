@@ -118,4 +118,4 @@ AUXPACKAGE=${AUXPACKAGE%.}
 #echo $PACKAGE
 #echo $AUXPACKAGE
 #$TARGET
-$TARGET -c "$classname" -d "$location" -p "$PACKAGE" -s "$AUXPACKAGE" -t "$auxdir"
+$TARGET -c "$classname" -d "$location" -p "$PACKAGE" -s "$AUXPACKAGE" -t "$auxdir" -n
