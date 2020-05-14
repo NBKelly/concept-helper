@@ -15,11 +15,12 @@ USAGE: easy -y -c <classname> -l <location> -a <aux-location>
     -c|--class-name <classname>: the classname of the target file (mandatory)
     -l|--location <directory>: the location of the target file (optional: default is src)
     -a|--auxiliary-location <directory>: location of the auxiliary (shared) classes (optional: default location)
+    -o|--overwrite-shared:
     -h|--help: display this help dialog
 END
 )
 
-TEMP=`getopt -n easy.sh -o c:l:a:hy -l class-name:,location:,aux-location:,help,yes -- "$@"`
+TEMP=`getopt -n easy.sh -o c:l:a:hyo -l class-name:,location:,aux-location:,help,yes,overwrite-shared -- "$@"`
 
 if [ $? -ne 0 ]
 then
@@ -69,6 +70,9 @@ while true ; do
 	    fi
 	    auxdir="$2"
 	    shift 2 ;;
+	-o|--overwrite-shared)
+	    OVRWRT=1
+	    shift 1 ;;
 	-h|--help)
 	    echo "$help"
 	    exit ;;
@@ -118,4 +122,9 @@ AUXPACKAGE=${AUXPACKAGE%.}
 #echo $PACKAGE
 #echo $AUXPACKAGE
 #$TARGET
-$TARGET -c "$classname" -d "$location" -p "$PACKAGE" -s "$AUXPACKAGE" -t "$auxdir" -n
+if ((OVRWRT == 1))
+then
+    $TARGET -c "$classname" -d "$location" -p "$PACKAGE" -s "$AUXPACKAGE" -t "$auxdir"
+else
+    $TARGET -c "$classname" -d "$location" -p "$PACKAGE" -s "$AUXPACKAGE" -t "$auxdir" -n
+fi
