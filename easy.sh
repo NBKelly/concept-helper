@@ -63,7 +63,10 @@ while true ; do
 	-h|--help)
 	    echo "$help"
 	    exit ;;
-	--) shift ; break ;;	
+	--)
+	    echo "$help"
+	    exit 1
+	    shift ; break ;;	
 	*) echo "Internal Error!" ; exit 1 ;;
     esac
 done

@@ -85,7 +85,10 @@ while true ; do
 	    fi
 	    package=$2
 	    shift 2 ;;
-	--) shift ; break ;;
+	--)
+	    echo "$help"
+	    exit 1
+	    shift ; break ;;
 	*) echo "Internal Error!" ; exit 1 ;;
     esac
 done
