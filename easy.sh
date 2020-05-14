@@ -9,9 +9,6 @@ echo $TARGET
 #location
 #aux location
 
-TEMP=`getopt -n easy.sh -o c:l:a:hy -l class-name:,location:,aux-location:,help,yes -- "$@"`
-eval set -- "$TEMP"
-
 help=$(cat <<-END
 USAGE: easy -y -c <classname> -l <location> -a <aux-location>
     -y|--yes|--YES: You understand what this program does (mandatory)
@@ -21,6 +18,18 @@ USAGE: easy -y -c <classname> -l <location> -a <aux-location>
     -h|--help: display this help dialog
 END
 )
+
+TEMP=`getopt -n easy.sh -o c:l:a:hy -l class-name:,location:,aux-location:,help,yes -- "$@"`
+
+if [ $? -ne 0 ]
+then
+    echo "$help"
+    exit 1
+fi
+
+eval set -- "$TEMP"
+
+
 
 #echo "$help"
 
@@ -106,7 +115,7 @@ AUXPACKAGE=${AUXPACKAGE%.}
 
 #PACKAGE=${PACKAGE%.}
 
-echo $PACKAGE
-echo $AUXPACKAGE
+#echo $PACKAGE
+#echo $AUXPACKAGE
 #$TARGET
 echo $TARGET -c "$classname" -d "$location" -p "$PACKAGE" -s "$AUXPACKAGE" -t "$auxdir"

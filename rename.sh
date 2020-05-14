@@ -6,9 +6,6 @@ cd $SCRDIR
 SCRDIR=`pwd`
 cd $CURDIR
 
-TEMP=`getopt -n opt_test -o c:d:p:hs:t:n -l class-name:,destination:,package-name:,help,aux-class:,aux-dir:,no-overwrite -- "$@"`
-eval set -- "$TEMP"
-
 help=$(cat <<-END
 USAGE: opts_test <-c|--classname> <-d|--destination>
     -c|--class-name: the classname of the target file (mandatory)
@@ -20,6 +17,16 @@ USAGE: opts_test <-c|--classname> <-d|--destination>
     -h|--help: display this help dialog
 END
 )
+
+TEMP=`getopt -q -n opt_test -o c:d:p:hs:t:n -l class-name:,destination:,package-name:,help,aux-class:,aux-dir:,no-overwrite -- "$@"`
+
+if [ $? -ne 0 ]
+then
+    echo "$help"
+    exit 1
+fi
+
+eval set -- "$TEMP"
 
 #TODO:
 # shared-classpath
@@ -132,8 +139,8 @@ then
 	echo "making directory $destination for project $classname..."
 	WHERE=`pwd`
 	mkdir -p $destination > /dev/null 2>&1
-	cd $destination > /dev/null 2>&1 || { echo "Location $2 does not exist, we cannot create it, or we do not have permission to use it"; exit; }
-	touch $classname.java > /dev/null 2>&1 || { echo "Do not have write permissions in location $2"; exit; }
+	cd $destination > /dev/null 2>&1 || { echo "Location $2 does not exist, we cannot create it, or we do not have permission to use it"; exit 1; }
+	touch $classname.java > /dev/null 2>&1 || { echo "Do not have write permissions in location $2"; exit 1; }
 	destination=`pwd`
 	cd $WHERE
     fi
@@ -155,8 +162,8 @@ then
 	echo "making directory $auxdir for auxiliary classes..."
 	WHERE=`pwd`
 	mkdir -p "$auxdir" > /dev/null 2>&1
-	cd "$auxdir" > /dev/null 2>&1 || { echo "Location $2 does not exist, we cannot create it, or we do not have permission to use it"; exit; }
-	touch "DebugLogger.java" > /dev/null 2>&1 || { echo "Do not have write permissions in location $2"; exit; }
+	cd "$auxdir" > /dev/null 2>&1 || { echo "Location $2 does not exist, we cannot create it, or we do not have permission to use it"; exit 1; }
+	touch "DebugLogger.java" > /dev/null 2>&1 || { echo "Do not have write permissions in location $2"; exit 1; }
 	auxdir=`pwd`
 	cd $WHERE
     fi
