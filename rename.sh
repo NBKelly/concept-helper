@@ -169,7 +169,7 @@ mkdir dist
 ##first replacement: we want to make a file called conceptHelper.java, which is our superclass
 
 CONCEPTSTR="ConceptHelper"
-echo "replacement term: $CONCEPTSTR"
+#echo "replacement term: $CONCEPTSTR"
 
 
 sed "s/myLibTemplate/${CONCEPTSTR}/g" myLibTemplate.java > dist/$CONCEPTSTR.java
