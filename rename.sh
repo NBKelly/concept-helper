@@ -90,8 +90,6 @@ while true ; do
 	    package=$2
 	    shift 2 ;;
 	--)
-	    echo "$help"
-	    exit 1
 	    shift ; break ;;
 	*) echo "Internal Error!" ; exit 1 ;;
     esac

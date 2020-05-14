@@ -9,7 +9,7 @@ echo $TARGET
 #location
 #aux location
 
-TEMP=`getopt -n opt_test -o c:l:a:hy -l class-name:,location:,aux-location:,help,yes -- "$@"`
+TEMP=`getopt -n easy.sh -o c:l:a:hy -l class-name:,location:,aux-location:,help,yes -- "$@"`
 eval set -- "$TEMP"
 
 help=$(cat <<-END
@@ -64,10 +64,11 @@ while true ; do
 	    echo "$help"
 	    exit ;;
 	--)
-	    echo "$help"
-	    exit 1
 	    shift ; break ;;	
-	*) echo "Internal Error!" ; exit 1 ;;
+	*)
+	    echo "Invalid option given"
+	    echo "$help"
+	    exit 1 ;;
     esac
 done
 
@@ -105,7 +106,7 @@ AUXPACKAGE=${AUXPACKAGE%.}
 
 #PACKAGE=${PACKAGE%.}
 
-#echo $PACKAGE
-#echo $AUXPACKAGE
+echo $PACKAGE
+echo $AUXPACKAGE
 #$TARGET
-$TARGET -c "$classname" -d "$location" -p "$PACKAGE" -s "$AUXPACKAGE" -t "$auxdir"
+echo $TARGET -c "$classname" -d "$location" -p "$PACKAGE" -s "$AUXPACKAGE" -t "$auxdir"
