@@ -37,9 +37,16 @@ public abstract class myLibTemplate {
     //   hasNextInt()        -> boolean, input contains another int
     //   hasNextBigInteger() -> boolean, same as above but bigint
     //   hasNextLine()       -> boolean, same as above but String (full line)
+    //   hasNext()           -> boolean, same as above but String (token)
+    //   hasNextDouble()     -> boolean, same as above but double
+    //   hasNextBigDecimal() -> boolean, same as above but bigdecimal
     //   nextInt()           -> integer, gets next int from stream
+    //   nextDouble()        -> integer, gets next double from stream
+    //   next()              -> string, gets next token from the stream
     //   nextBigInteger()    -> bigint,  gets next bigint from stream
+    //   nextBigDecimal()    -> bigdec,  gets next bigdecimal from stream
     //   nextLine()          -> String,  gets all text from stream up to next line break
+    
     //  
     
     // To print:
@@ -454,6 +461,123 @@ public abstract class myLibTemplate {
 	//res = true iff there is an int to read	
 	return res;
     }
+
+    // HERE IS SOME CONVENIENCE JUNK TO GET THE NEXT BIGINT ALWAYS
+    public String next() {
+	if(!hasNext())
+	    DEBUG("No such element [any] at line " + line
+		  + " token " + token);
+	token++;
+	return ln.next();
+    }
+    
+    public boolean hasNext() {
+	if(ln == null || !ln.hasNext()) {
+	    //see if sc has another line	    
+	    //while lines exist to be read, and we haven't just fetched
+	    //a fresh scanner
+	    while(sc.hasNextLine() && !checkNextLine());
+	}
+
+	if(ln.hasNext())
+	    return true;
+	
+	boolean res = false;
+
+	while(!ln.hasNext()) {
+	    //if the current line has no integer
+	    //then we scan through until we find
+	    //another valid line, or there are
+	    //no more lines
+	    while(sc.hasNextLine() && !(res = checkNextLine()));
+	    
+	    if(!sc.hasNextLine())
+		break;
+	}
+	//ln is gauranteed to be non-null here
+
+	//res = true iff there is an int to read	
+	return res;
+    }
+
+    
+    // HERE IS SOME CONVENIENCE JUNK TO GET THE NEXT BIGINT ALWAYS
+    public double nextDouble() {
+	if(!hasNextBigInteger())
+	    DEBUG("No such element [double] at line " + line
+		  + " token " + token);
+	token++;
+	return ln.nextDouble();
+    }
+    
+    public boolean hasNextDouble() {
+	if(ln == null || !ln.hasNextDouble()) {
+	    //see if sc has another line	    
+	    //while lines exist to be read, and we haven't just fetched
+	    //a fresh scanner
+	    while(sc.hasNextLine() && !checkNextLine());
+	}
+
+	if(ln.hasNextDouble())
+	    return true;
+	
+	boolean res = false;
+
+	while(!ln.hasNextDouble()) {
+	    //if the current line has no integer
+	    //then we scan through until we find
+	    //another valid line, or there are
+	    //no more lines
+	    while(sc.hasNextLine() && !(res = checkNextLine()));
+	    
+	    if(!sc.hasNextLine())
+		break;
+	}
+	//ln is gauranteed to be non-null here
+
+	//res = true iff there is an int to read	
+	return res;
+    }
+
+    
+    // HERE IS SOME CONVENIENCE JUNK TO GET THE NEXT BIGDECIMAL ALWAYS
+    public BigInteger nextBigDecimal() {
+	if(!hasNextBigInteger())
+	    DEBUG("No such element [bigdecimal] at line " + line
+		  + " token " + token);
+	token++;
+	return ln.nextBigInteger();
+    }
+    
+    public boolean hasNextBigDecimal() {
+	if(ln == null || !ln.hasNextBigDecimal()) {
+	    //see if sc has another line	    
+	    //while lines exist to be read, and we haven't just fetched
+	    //a fresh scanner
+	    while(sc.hasNextLine() && !checkNextLine());
+	}
+
+	if(ln.hasNextBigDecimal())
+	    return true;
+	
+	boolean res = false;
+
+	while(!ln.hasNextBigDecimal()) {
+	    //if the current line has no integer
+	    //then we scan through until we find
+	    //another valid line, or there are
+	    //no more lines
+	    while(sc.hasNextLine() && !(res = checkNextLine()));
+	    
+	    if(!sc.hasNextLine())
+		break;
+	}
+	//ln is gauranteed to be non-null here
+
+	//res = true iff there is an int to read	
+	return res;
+    }
+
     
     // HERE IS SOME CONVENIENCE JUNK TO GET THE NEXT INTEGER ALWAYS
     public int nextInt() {
