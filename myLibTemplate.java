@@ -102,7 +102,6 @@ public abstract class myLibTemplate {
 	new myLibTemplate().process(argv);
 	}*/
 
-    //todo: make this abstract
     public abstract boolean processArgs(String[] argv); /*{
 	for(int i = 0; i < argv.length; i++) {
 	    switch(argv[i]) {
