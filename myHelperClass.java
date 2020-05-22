@@ -20,15 +20,21 @@ public class myHelperClass extends myLibTemplate {
     //   hasNextInt()        -> boolean, input contains another int
     //   hasNextBigInteger() -> boolean, same as above but bigint
     //   hasNextLine()       -> boolean, same as above but String (full line)
+    //   hasNext()           -> boolean, same as above but String (token)
+    //   hasNextDouble()     -> boolean, same as above but double
+    //   hasNextBigDecimal() -> boolean, same as above but bigdecimal
     //   nextInt()           -> integer, gets next int from stream
     //   nextBigInteger()    -> bigint,  gets next bigint from stream
     //   nextLine()          -> String,  gets all text from stream up to next line break
-    //  
+    //   next()              -> string, gets next token from the stream
+    //   nextBigInteger()    -> bigint,  gets next bigint from stream
+    //   nextBigDecimal()    -> bigdec,  gets next bigdecimal from stream
     
     // To print:
     //   Errors: ERR(x)       -> uses stderr, only enabled with -se
     //   Line:   println(x)
     //   Block:  print(x)     -> inserts space after integer argument
+    //   Format: printf(x,[]) -> standard printf
     //   Debug:  DEBUG(x)     -> uses stderr, only enabled with -d
     //   Debug:  DEBUGF(x,[]) -> uses stderr, only enabled with -d
     //   Timer:  TEBUG(x)     -> uses stderr, enabled with -d/-t

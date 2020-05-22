@@ -47,13 +47,11 @@ public abstract class myLibTemplate {
     //   nextBigDecimal()    -> bigdec,  gets next bigdecimal from stream
     //   nextLine()          -> String,  gets all text from stream up to next line break
     
-    //  
-    
     // To print:
     //   Errors: ERR(x)       -> uses stderr, only enabled with -se
     //   Line:   println(x)
     //   Block:  print(x)     -> inserts space after integer argument
-    //   Block:  printf(x)    -> standard printf
+    //   Format: printf(x,[]) -> standard printf
     //   Debug:  DEBUG(x)     -> uses stderr, only enabled with -d
     //   Debug:  DEBUGF(x,[]) -> uses stderr, only enabled with -d
     //   Timer:  TEBUG(x)     -> uses stderr, enabled with -d/-t
