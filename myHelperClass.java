@@ -64,13 +64,13 @@ public class myHelperClass extends myLibTemplate {
 
 	t.total("Finished processing of file. ");
     }
-
+        
     //do any argument processing here
     public boolean processArgs(String[] argv) {
 	for(int i = 0; i < argv.length; i++) {
 	    switch(argv[i]) {
 	    case "-se" : IGNORE_UNCLEAN = false; break;
-	    case "-d"  : DEBUG = true; IGNORE_UNCLEAN = false;
+	    case "-d"  : DEBUG = true; IGNORE_UNCLEAN = false; TIMER = true; break;
 	    case "-t"  : TIMER = true; break;
 	    case "-dt" :
 		Scanner tst = null;
@@ -80,15 +80,11 @@ public class myHelperClass extends myLibTemplate {
 		    i++;
 		    break;
 		}
-
-		//customize your usage text here
+		return fail();
+		
+		
 	    default :
-		System.err.
-		    println("Usage: -se       = (show exceptions),\n" +
-			    "       -d        = debug mode,\n" +
-			    "       -t        = timer mode (debug lite),\n" +
-			    "       -dt <int> = set timer digits");
-		return false; //false - exit program
+		return fail();
 	    }
 	}
 
@@ -101,12 +97,15 @@ public class myHelperClass extends myLibTemplate {
 	return true; //everything is fine
     }
 
-    /* ^^^^ YOUR WORK
-     *
-     *     YOUR WORK HERE
-     * 
-     * vvvv NOT YOUR WORK
-     */
+    //customize your usage text here
+    private boolean fail() {
+	System.err.println("Usage: -se       = (show exceptions),\n" +
+			   "       -d        = debug mode,\n" +
+			   "       -t        = timer mode (debug lite),\n" +
+			   "       -dt <int> = set timer digits");
+	return false; //false - exit program
+    }
+    
     public myHelperClass() {
 	super();
     }
