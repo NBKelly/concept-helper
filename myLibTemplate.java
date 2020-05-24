@@ -500,7 +500,7 @@ public abstract class myLibTemplate {
     
     // HERE IS SOME CONVENIENCE JUNK TO GET THE NEXT BIGINT ALWAYS
     public double nextDouble() {
-	if(!hasNextBigInteger())
+	if(!hasNextDouble())
 	    DEBUG("No such element [double] at line " + line
 		  + " token " + token);
 	token++;
