@@ -31,6 +31,15 @@ defaults:
 * location:  src/
 * auxiliary: [location]
 
+Example use case:
+```
+cd myProject
+~/projects/concept-helper -y -c MyCoolProject -l com/nbkelly/cool -a com/nbkelly/helper
+...
+javac com/nbkelly/cool/MyCoolProject.java
+echo "" | java com.nbkelly.cool.MyCoolProject
+```
+
 If you're using this script to create classes/classnames not relative to the current directory, then you should probably be using rename.sh instead.
 
 There is a file called rename.sh. It takes these arguments:
